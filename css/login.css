@@ -1,0 +1,32 @@
+.telalogin{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 300px;
+}
+
+.Cadastro{
+    justify-content: center;
+    align-items: center;
+    border: 2px solid;
+    padding: 15px;
+    border-radius: 10%;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid;
+    padding: 15px;
+    border-radius: 10%;
+}
+
+.form{
+flex-direction: column;
+display: flex;
+justify-content: center;
+align-items: center;
+}

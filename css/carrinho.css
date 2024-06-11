@@ -1,0 +1,17 @@
+.corpo{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.table{
+    width: 900px;
+    
+    
+}
+.produto{
+    width: 400px;
+}
