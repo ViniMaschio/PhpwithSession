@@ -40,11 +40,12 @@ session_start();
             foreach ($listCarros as $car) {
                 ?>
                 <div class="carro">
-                    <div class="nomecarro">
-                        <h2><?php echo $car->getNomeCarro(); ?> </h2>
-                    </div>
+                    
                     <div class="imgcarro">
                         <img src="./imgProduto/<?php echo $car->getImg(); ?>" alt="Carro">
+                    </div>
+                    <div class="nomecarro">
+                        <h2><?php echo $car->getNomeCarro(); ?> </h2>
                     </div>
                     <p>Preço: R$ <?php echo $car->getValor(); ?> </p>
 

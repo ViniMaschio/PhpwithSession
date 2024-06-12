@@ -2,9 +2,9 @@
 include ("./Class/LoginEntidade.php");
 include ("./Class/CarrosEntidade.php");
 include ("./Banco/CarroDAO.php");
-include("./Banco/VendaDAO.php");
-include("./Banco/ItensVendaDAO.php");
-include("./Class/ItensVendaProdutoEntidade.php");
+include ("./Banco/VendaDAO.php");
+include ("./Banco/ItensVendaDAO.php");
+include ("./Class/ItensVendaProdutoEntidade.php");
 
 session_start();
 
@@ -37,18 +37,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["bntDeletar"])) {
     }
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Comprar"])) {
-    $venda = new VendaDAO();
-    $idvenda = $venda->FazerVenda($_SESSION["usuario"]->getId());
-    $itensvendaprodutoEntidade = new ItensVendaProdutoEntidade();
-    $itensVendaProdutoDAO = new ItensVendaDAO();
-    foreach ($_SESSION['carrinho'] as $carrinho) {
-        $itensvendaprodutoEntidade->SetVenda($idvenda, $carrinho->getIdCarro(), $carrinho->getValor(), $carrinho->getQuantidade());
-        $itensVendaProdutoDAO->FazerVenda($itensvendaprodutoEntidade);
+    if (isset($_SESSION["logado"])) {
+        $venda = new VendaDAO();
+        $idvenda = $venda->FazerVenda($_SESSION["usuario"]->getId());
+        $itensvendaprodutoEntidade = new ItensVendaProdutoEntidade();
+        $itensVendaProdutoDAO = new ItensVendaDAO();
+        foreach ($_SESSION['carrinho'] as $carrinho) {
+            $itensvendaprodutoEntidade->SetVenda($idvenda, $carrinho->getIdCarro(), $carrinho->getValor(), $carrinho->getQuantidade());
+            $itensVendaProdutoDAO->FazerVenda($itensvendaprodutoEntidade);
 
+        }
+        
+        unset($_SESSION['carrinho']);
+        header("Location: carrinho.php");
+        echo '<script>alert("Compra Realizada com sucesso!")</script>';
+        exit;
+    }else{
+        
+        echo '<script>alert("Precisa entrar em uma conta antes de fazer a compra!")</script>';
     }
-    unset($_SESSION['carrinho']);
-    header("Location: carrinho.php");
-    exit;
 
 }
 ?>
@@ -59,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Comprar"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -76,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Comprar"])) {
     }
     ?>
     <br><br>
-    <div class = "corpo">
+    <div class="corpo">
         <h1>Carrinho de Compras</h1><br><br>
 
         <div class="ListaCompras">
@@ -88,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Comprar"])) {
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col" class = "produto">Carro</th>
+                            <th scope="col" class="produto">Carro</th>
                             <th scope="col">Quantidade</th>
                             <th scope="col">Valor Unt.</th>
                             <th scope="col">Valor Total</th>
@@ -111,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Comprar"])) {
                                 <tr>
                                     <form action="" method="post">
                                         <th scope="row"><?php echo $i; ?></th>
-                                        <th class = "produto">
+                                        <th class="produto">
                                             <?php echo $carro->getNomeCarro(); ?>
                                         </th>
                                         <th>
